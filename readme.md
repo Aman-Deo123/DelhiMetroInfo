@@ -69,14 +69,11 @@ The `Metro_data.csv` file should contain the following columns:
 - `Opening Date`: Date the station was opened.
 - `Line`: The metro line the station belongs to.
 
-## Example Screenshot
 
-![App Screenshot](screenshot.png)
+
 
 ## Contributing
 
 Contributions are welcome! If you'd like to improve the app or add new features, feel free to fork the repository and submit a pull request.
 
-## License
 
-This project is licensed under the MIT License
