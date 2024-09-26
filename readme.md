@@ -23,6 +23,8 @@ This is a simple Streamlit app that allows users to check the distance between t
   - `streamlit`
   - `pandas`
   - `math`
+  - `folium`
+  - `strealit_folium`
 
 ### Setup
 
@@ -52,7 +54,7 @@ This is a simple Streamlit app that allows users to check the distance between t
     ```
 
 6. **Access the app**:
-    - After running the above command, you can access the app at `http://localhost:8501/` in your browser.
+    - After running the above command, you can access the app at `http://localhost:8508/` in your browser.
 
 ### Usage
 
