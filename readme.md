@@ -7,6 +7,9 @@ This is a simple Streamlit app that allows users to check the distance between t
 1. **Check Distance Between Metro Stations**:
     - Users can select two metro stations from a dropdown and calculate the distance between them using the Haversine formula.
     - The result is displayed as the distance in kilometers.
+2. **Check Fare Between Metro Stations**:
+    - Users can select two metro stations from a dropdown and calculate the fare between them using certain pre-defined fares.
+    - The result is displayed as the fare in INR.
 
 2. **View Metro Data**:
     - Users can see the raw metro data, including information such as the station name, line, latitude, longitude, and opening date.
