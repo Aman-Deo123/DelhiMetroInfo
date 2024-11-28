@@ -22,10 +22,8 @@ metro_data = load_data()
 
 # Sidebar controls
 st.sidebar.header("Metro Data Analysis Options")
-
-# Feature to ask user what they want to see
 user_choice = st.sidebar.selectbox("What would you like to see?", 
-                                    ("Raw Data", "Metro Map", "Data Types and Missing Values", "Perform Analysis"))
+                                    ("Raw Data", "Metro Map", "Data Types and Missing Values", "Perform Analysis", "Fare Calculator"))
 
 # Show raw data
 if user_choice == "Raw Data":
@@ -34,21 +32,58 @@ if user_choice == "Raw Data":
 
 # Function to calculate the distance between two stations using Haversine formula
 def haversine(lat1, lon1, lat2, lon2):
-    # Radius of Earth in kilometers
-    R = 6371.0
-    
-    # Converting latitude and longitude from degrees to radians
+    R = 6371.0  # Radius of Earth in kilometers
     lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
-    
-    # Differences in coordinates
     dlat = lat2 - lat1
     dlon = lat2 - lon1
-    
-    # Haversine formula
     a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     distance = R * c  # Output distance in kilometers
     return distance
+
+# Fare Calculator Section
+if user_choice == "Fare Calculator":
+    st.subheader("Station-wise Fare Calculator")
+
+    # Define a simple fare structure (example)
+    fare_structure = {
+        '0-500 km': 70,   # fare for 0-500 km
+        '500-1000 km': 130,   # fare for 500-1000 km
+        '1000-3000 km': 220,  # fare for 1000-3000 km
+        '3000+ km': 280,   # fare for more than 3000 km
+        '5000+ km': 320  #fare for more than 5000 km
+    }
+
+    # Dropdowns to select two stations
+    station_1 = st.selectbox('Select Starting Station:', metro_data['Station Name'].unique())
+    station_2 = st.selectbox('Select Destination Station:', metro_data['Station Name'].unique())
+
+    if station_1 != station_2:
+        station_1_data = metro_data[metro_data['Station Name'] == station_1].iloc[0]
+        station_2_data = metro_data[metro_data['Station Name'] == station_2].iloc[0]
+        
+        lat1, lon1 = station_1_data['Latitude'], station_1_data['Longitude']
+        lat2, lon2 = station_2_data['Latitude'], station_2_data['Longitude']
+        
+        # Calculate the distance between the two stations
+        distance = haversine(lat1, lon1, lat2, lon2)
+        st.write(f"The distance between **{station_1}** and **{station_2}** is **{distance:.2f} km**.")
+        
+        # Calculate fare based on distance
+        if distance <= 500:
+            fare = fare_structure['0-500 km']
+        elif distance <= 1000 and distance > 500:
+            fare = fare_structure['500-1000 km']
+        elif distance <= 3000 and  distance>1000:
+            fare = fare_structure['1000-3000 km']
+        elif distance <= 5000 and  distance>3000:
+            fare = fare_structure['3000+ km']
+        else:
+            fare = fare_structure['5000+ km']
+        
+        st.write(f"The fare from **{station_1}** to **{station_2}** is **₹{fare}**.")
+    else:
+        st.write("Please select two different metro stations to calculate the fare.")
 
 # Add check distance feature on the front page
 st.subheader("Check Distance Between Two Metro Stations")
@@ -56,6 +91,9 @@ st.subheader("Check Distance Between Two Metro Stations")
 # Dropdowns to select two stations
 station_1 = st.selectbox('Select First Station:', metro_data['Station Name'].unique())
 station_2 = st.selectbox('Select Second Station:', metro_data['Station Name'].unique())
+
+# Initialize variables to prevent NameError
+lat1, lon1, lat2, lon2 = None, None, None, None
 
 # Get latitude and longitude for the selected stations
 if station_1 != station_2:
@@ -188,7 +226,5 @@ if user_choice == "Perform Analysis":
 st.subheader("Coming Soon")
 st.write("We are working on adding more features to enhance your experience. Stay tuned for:")
 st.write("- Real-time metro status updates")
-st.write("- Station-wise fare calculator")
 st.write("- User feedback and ratings on stations")
 st.write("- More detailed analysis on line efficiency and delays")
-
