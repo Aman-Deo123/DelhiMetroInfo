@@ -67,7 +67,7 @@ if user_choice == "Fare Calculator":
         
         # Calculate the distance between the two stations
         distance = haversine(lat1, lon1, lat2, lon2)
-        st.write(f"The distance between **{station_1}** and **{station_2}** is **{distance:.2f} km**.")
+        st.write(f"The distance between **{station_1}** and **{station_2}** is **{distance:.2f} m**.")
         
         # Calculate fare based on distance
         if distance <= 500:
